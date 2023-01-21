@@ -43,7 +43,8 @@ export const login = catchAsyncError(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-  if (!user) return next(new ErrorHandler("Incorrect Creditials", 401));
+
+  if (!user) return next(new ErrorHandler("User Doesn't Exist", 401));
 
   const isMatch = await user.comparePassword(password);
 
@@ -145,7 +146,7 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
 
   await user.save();
 
-  const url = `${process.env.FRONTEND_URL}/resetppassword/${resetToken}`;
+  const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
 
   const message = `Click on the link to reset your password. ${url}. If you have not requested then please ignore`;
 
