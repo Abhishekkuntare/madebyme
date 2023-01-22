@@ -83,7 +83,7 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    statsData,
+    stats: statsData,
     usersCount,
     subscriptionCount,
     viewsCount,
