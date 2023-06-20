@@ -37,7 +37,6 @@ export const register = catchAsyncError(async (req, res, next) => {
 
 export const login = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
   if (!email || !password) {
     return next(new ErrorHandler("Please enter all fields", 400));
   }
@@ -70,7 +69,6 @@ export const logout = catchAsyncError(async (req, res, next) => {
 
 export const getMyProfile = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-
   res.status(200).json({
     status: true,
     user,
@@ -117,7 +115,7 @@ export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
   const file = req.file;
   const user = await User.findById(req.user._id);
 
-  const fileUri = getDataUri(file);
+  const fileUri = getDataUri(file); // convert file format to link format
   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
   await cloudinary.v2.uploader.destroy(user.avatar.public_id);
@@ -272,7 +270,7 @@ export const deleteUser = catchAsyncError(async (req, res, next) => {
 
 export const deleteMyProfile = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+  // await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
   await user.remove();
   res

@@ -66,4 +66,5 @@ router
   .route("/admin/users/:id")
   .put(isAuthenticated, authorizeAdmin, updateUserRole)
   .delete(isAuthenticated, authorizeAdmin, deleteUser);
+
 export default router;

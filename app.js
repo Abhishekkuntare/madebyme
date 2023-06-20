@@ -2,25 +2,29 @@ import express from "express";
 import { config } from "dotenv";
 import ErrorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+  import cors from "cors";
 
-config({ path: "./config/config.env" });
-const app = express();
+  config({ path: "./config/config.env" });
+  const app = express();
 
-//Using Middleware
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(cookieParser());
-const corsOrigin = {
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  optionSuccessStatus: 200,
-};
+  //Using Middleware
+  app.use(express.json());
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
+
+  app.use(cookieParser());
+  const corsOrigin = {
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    optionSuccessStatus: 200,
+    "Content-Type": "text/plain",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
+  };
 app.use(cors(corsOrigin));
 
 //Importing and using routes
